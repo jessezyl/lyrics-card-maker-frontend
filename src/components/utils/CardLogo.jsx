@@ -1,7 +1,7 @@
 import React from "react";
 
-const CardLogo = ({ varient = "large", color = "#000000" }) => {
-  return varient == "large" ? (
+const CardLogo = ({ varient = "small", color = "#000000" }) => {
+  return varient == "small" ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"

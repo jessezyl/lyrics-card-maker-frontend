@@ -68,7 +68,7 @@ const LyricsCard = forwardRef(
         data-aspect-ratio={aspectRatio}
         data-alignment={cardStyling.alignment}
         style={{
-          aspectRatio: aspectRatio.replace(":", "/"),
+          aspectRatio: aspectRatio.replace(":", "/").replace("4", "4.75"),
           "--aspect-ratio": aspectRatio,
           transition: "all 0.15s ease-out",
         }}

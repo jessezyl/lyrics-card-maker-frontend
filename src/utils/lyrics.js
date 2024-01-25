@@ -94,8 +94,8 @@ const getMaxCharacters = (container, fontSizeClassName) => {
 
   const widths = {
     "1:1": containerWidth,
-    "3:4": containerWidth * (3 / 4),
-    "4:3": containerWidth * (4 / 3),
+    "3:4": containerWidth * (3 / 4.75),
+    "4:3": containerWidth * (4.75 / 3),
   };
 
   // 3- Remove the temporary span element
