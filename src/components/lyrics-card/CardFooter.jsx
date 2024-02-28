@@ -67,6 +67,11 @@ const CardFooter = ({
             color={cardStyling["bannerForeground"]}
           />
         </button>
+         <EditableLabel
+          className={`${styles["credits2"]}`}
+          text={footerText}
+          onChange={setFooterText}
+        />
       </footer>
     )
   );
