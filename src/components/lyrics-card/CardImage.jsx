@@ -9,15 +9,27 @@ import CardStyleContext from "@contexts/CardStyleContext";
 import usePasteImage from "@hooks/usePasteImage";
 
 import routes from "@/js/api/routes";
-import { getImagePalette, getUpscaledImage, getContrastColor } from "@utils";
+import { getImagePalette, getUpscaledImage, getContrastColor, getPreviewGradient } from "@utils";
 
 import iconDownload from "@assets/icon-download.svg";
 import iconCamera from "@assets/icon-camera.svg";
 import plainBackground from "@assets/plain-background.svg";
 
 import styles from "./LyricsCard.module.sass";
+// import routes from "@/js/api/routes";
+import {
+  bestContrast,
+  getContrast,
+} from "./../../utils";
 
-const CardImage = ({ cardInfo, onDownload }) => {
+const CardImage = ({
+  cardInfo,
+  onDownload,
+}) => {
+  const [colors, setColors] = useState({
+    background_color: "#e9e9e9",
+    text_color: "#000000",
+    });
   const [isFileDragged, setIsFileDragged] = useState(false);
   const [showDragOverlay, setShowDragOverlay] = useState(true);
   const [backgroundImage, setBackgroundImage] = useState(null);
@@ -80,6 +92,22 @@ const CardImage = ({ cardInfo, onDownload }) => {
       url: url,
       type: "external",
     });
+    routes
+      .getColors(url)
+      .then((res) => {
+        let { background_color, text_color } = res.data;
+
+        if (getContrast(background_color, text_color, true) <= 2)
+          text_color = bestContrast(background_color, ["#000000", "#ffffff"]);
+
+        setColors({
+          background_color: background_color,
+          text_color: text_color,
+        });
+      })
+      .catch(() => {
+        console.error("Couldn't extract colors from image");
+      });
   };
 
   // Drag overlay
@@ -165,7 +193,19 @@ const CardImage = ({ cardInfo, onDownload }) => {
           onDrop={dropHandler}
         />
       </div>
-      {backgroundImage && <div className={styles["shade"]}></div>}
+      {/* {backgroundImage && <div className={styles["shade"]}></div>} */}
+      {backgroundImage && <div
+        className={styles["shade"]}
+        style={{
+          direction: "ltr",
+          textAlign: "left",
+          background: getPreviewGradient(
+            colors && colors["background_color"],
+            "ltr"
+          ),
+          color: colors && colors["text_color"],
+        }}
+        ></div>}
 
       {/* Secondary panel: Upload/Remove photo buttons */}
       {backgroundImage && (
